@@ -109,9 +109,9 @@ test('recruiter function', function(t) {
   inputArr = collArr.slice();
 
   inputArr[0].experiance = 0;
-  inputArr[0].degree = "human resource management";
+  inputArr[0].degree = "human resources management";
   inputArr[3].experiance = 0;
-  inputArr[3].degree = "human resource management";
+  inputArr[3].degree = "human resources management";
 
   t.ok(inputArr[0].gpa === 3.1 &&
     inputArr[1].gpa === 2.07 &&
@@ -122,7 +122,7 @@ test('recruiter function', function(t) {
 
   t.deepEqual(retArr.length, 2, "returns expected num of interns, removes GPA below 2.5");
   t.deepEqual(retArr[0].gpa, 3.93, "returns expected GPA order");
-  t.ok(retArr[0].metric > retArr[1].metric, "returns metrics in order");
+  t.ok(retArr[0].metric >= retArr[1].metric, "returns metrics in order");
 
 
   t.end();

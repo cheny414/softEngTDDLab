@@ -24,7 +24,11 @@ function bracketFromGPA(gpa) {
 
 
 function recruiter(internArr) {
+	var backupArr = internArr.slice();
 
+	if (internArr.length == 0) {
+		return internArr;
+	}
 	// Below is just to help show the syntax you need,
 	// you'll need to process ALL of the hireables like this one and sort
 	for (var index = 0; index < internArr.length; index++) {
@@ -39,14 +43,15 @@ function recruiter(internArr) {
 		iwage = degreeSWage[idegr];
 
 		// You should use these functions at some point
-		ivalue = util.getValueFromWageAndExp(iwage,iexp);
+		ivalue = util.getValueFromWageAndExp(iwage,Math.floor(iexp));
 		ibracket = bracketFromGPA(igpa);
 
 		// Hmm... this doesn't seem to follow the spec - fix it
-		imetric = ivalue + ibracket;
+		imetric = ivalue;
 
 		// We really want to add our sorting number "metric" to objects (it really is this easy)
 		internArr[index].metric = imetric;
+		internArr[index].bracket = ibracket;
 	}
 
 	// and then sort them all (it doesn't return anything, it modifies the array sent)
@@ -61,15 +66,26 @@ function recruiter(internArr) {
 	// people further down.
 
 	for (var i = 0; i < internArr.length; i++) {
-		var findIndex = degreeSWage.degreenames.indexOf(internArr[i].degree);
-		if (findIndex == -1) {
+		var findIndex = degreeSWage["degreenames"].indexOf(internArr[i].degree);
+		if (findIndex == -1 || internArr[i].bracket == 0) {
 			internArr.splice(i,1);
 			i = i - 1;
 		}
 	}
 
-
-	return internArr;
+	if (internArr.length > 0) {
+		return internArr;
+	}
+	else {
+		for (var i = 0; i < backupArr.length; i++) {
+			if (backupArr[i].degree.toLowerCase() !== "astrology") {
+				backupArr.splice(i,1);
+				i = i - 1;
+			}
+		}
+		util.sortInternObjects(backupArr);
+		return backupArr;
+	}
 };
 
 module.exports = {
