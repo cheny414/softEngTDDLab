@@ -9,7 +9,19 @@ var util = require('./util.js');
 // bracketFromGPA(decimal GPA);
 function bracketFromGPA(gpa) {
 	// 4-3.5, 3.49 - 3.0, 2.99 - 2.5
-	return; //some form of bracket number
+	if (gpa >= 3.5) {
+		return 3;
+	}
+	else if (gpa >= 3.0) {
+		return 2;
+	}
+	else if (gpa >= 2.5) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+	//some form of bracket number
 }
 
 // TODO: recruiter( Array of hireables )
@@ -39,10 +51,10 @@ function recruiter(internArr) {
 	internArr[index].metric = imetric;
 
 	// and then sort them all (it doesn't return anything, it modifies the array sent)
-	util.sortInternObjects( /*Array of hireables with "metric" as a property*/ );
+	//util.sortInternObjects( /*Array of hireables with "metric" as a property*/ );
 
 
-	// Output 
+	// Output
 	// An array of HIREABLE 'intern objects' (in order of most valueable to least valueable)
 	// with at least the properties "name", "metric", "degree"
 	// You can come up with any number you want for "metric" as long as it corresponds to the spec
