@@ -17,7 +17,7 @@ function getValueFromWageAndExp(wage, fullYearsExp) {
 // sortInternObjects( Array of hireables with "metric" as a property )
 function sortInternObjects(internArr) {
 	internArr.sort(function (a, b) {
-  	return b.metric - a.metric;
+  	return b.metric - a.metric || b.gpa - a.gpa;
 	});
 }
 

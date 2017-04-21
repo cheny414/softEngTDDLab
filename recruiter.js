@@ -5,8 +5,6 @@ var degreeSWage = require('./degreeSWage.json');
 // File containing some of our utility functions (already written)
 var util = require('./util.js');
 
-//TODO: You need to write this function AND utilize it.
-// bracketFromGPA(decimal GPA);
 function bracketFromGPA(gpa) {
 	// 4-3.5, 3.49 - 3.0, 2.99 - 2.5
 	if (gpa >= 3.5) {
@@ -24,34 +22,35 @@ function bracketFromGPA(gpa) {
 	//some form of bracket number
 }
 
-// TODO: recruiter( Array of hireables )
+
 function recruiter(internArr) {
 
 	// Below is just to help show the syntax you need,
 	// you'll need to process ALL of the hireables like this one and sort
-	var index = 0;
-	var iname = internArr[index].name;
-	var idegr = internArr[index].degree;
-	var igpa = internArr[index].gpa;
-	var iexp = internArr[index].experiance;
-	var iwage, ivalue, ibracket, imetric;
+	for (var index = 0; index < internArr.length; index++) {
+		var iname = internArr[index].name;
+		var idegr = internArr[index].degree;
+		var igpa = internArr[index].gpa;
+		var iexp = internArr[index].experiance;
+		var iwage, ivalue, ibracket, imetric;
 
-	// Yep, you can use strings as an "index" (technically it's a property) in JavaScript
-	idegr = idegr.toLowerCase();
-	iwage = degreeSWage[idegr];
+		// Yep, you can use strings as an "index" (technically it's a property) in JavaScript
+		idegr = idegr.toLowerCase();
+		iwage = degreeSWage[idegr];
 
-	// You should use these functions at some point
-	ivalue = util.getValueFromWageAndExp( /*wage, full years of experiance*/ );
-	ibracket = bracketFromGPA ( /*decimal GPA*/ );
+		// You should use these functions at some point
+		ivalue = util.getValueFromWageAndExp(iwage,iexp);
+		ibracket = bracketFromGPA(igpa);
 
-	// Hmm... this doesn't seem to follow the spec - fix it
-	imetric = ivalue + ibracket;
+		// Hmm... this doesn't seem to follow the spec - fix it
+		imetric = ivalue + ibracket;
 
-	// We really want to add our sorting number "metric" to objects (it really is this easy)
-	internArr[index].metric = imetric;
+		// We really want to add our sorting number "metric" to objects (it really is this easy)
+		internArr[index].metric = imetric;
+	}
 
 	// and then sort them all (it doesn't return anything, it modifies the array sent)
-	//util.sortInternObjects( /*Array of hireables with "metric" as a property*/ );
+	util.sortInternObjects(internArr);
 
 
 	// Output
@@ -60,6 +59,15 @@ function recruiter(internArr) {
 	// You can come up with any number you want for "metric" as long as it corresponds to the spec
 	// and people earlier in the array have equal or greater values for "metric" than
 	// people further down.
+
+	for (var i = 0; i < internArr.length; i++) {
+		var findIndex = degreeSWage.degreenames.indexOf(internArr[i].degree);
+		if (findIndex == -1) {
+			internArr.splice(i,1);
+			i = i - 1;
+		}
+	}
+
 
 	return internArr;
 };
